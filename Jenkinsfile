@@ -4,7 +4,10 @@ pipeline {
     agent none
     environment {
         //be sure to replace "willbla" with your own Docker Hub username
+        MYIMAGE = "$DOCKER_IMAGE_NAME:$BUILD_NUMBER"
         DOCKER_IMAGE_NAME = "shdh/train-schedule"
+        VERSION = "2"
+        
     }
     stages {
         stage('Build') {
@@ -68,6 +71,7 @@ pipeline {
             environment {
               NAMESPACE = "ct"  
               NODEPORT = "30060"
+              MYIMAGE = "$DOCKER_IMAGE_NAME:$VERSION"
            }
             steps {
                 input 'Deploy to CT?'
@@ -87,6 +91,7 @@ pipeline {
             environment {
               NAMESPACE = "prod"  
               NODEPORT = "30070"
+              MYIMAGE = "$DOCKER_IMAGE_NAME:$VERSION"
            }
             steps {
                 input 'Deploy to Production?'
